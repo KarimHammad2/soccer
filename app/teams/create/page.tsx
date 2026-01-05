@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 
 import { MainShell } from "@/components/layout/main-shell";
 import { Button } from "@/components/ui/button";
@@ -10,22 +10,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppStore } from "@/lib/store/app-store";
+import { SkillLevel, Team, TeamMember } from "@/lib/types";
 
 export default function CreateTeamPage() {
   const router = useRouter();
   const { createTeam, currentUser } = useAppStore();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Omit<Team, "id" | "members">>({
     name: "",
     location: "",
     description: "",
-    level: "Intermediate",
+    level: "Intermediate" as SkillLevel,
     openForPlayers: true,
   });
 
   const handleSubmit = () => {
     const team = createTeam({
       ...form,
-      members: currentUser ? [{ playerId: currentUser.id, role: "captain" }] : [],
+      members: currentUser
+        ? ([{ playerId: currentUser.id, role: "captain" }] as TeamMember[])
+        : [],
     });
     router.push(`/teams/${team.id}`);
   };
@@ -62,7 +65,9 @@ export default function CreateTeamPage() {
             <Label>Level</Label>
             <Input
               value={form.level}
-              onChange={(e) => setForm({ ...form, level: e.target.value })}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setForm({ ...form, level: e.target.value as SkillLevel })
+              }
             />
           </div>
           <Button onClick={handleSubmit} disabled={!form.name}>
