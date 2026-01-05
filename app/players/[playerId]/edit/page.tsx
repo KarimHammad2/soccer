@@ -18,13 +18,20 @@ export default function EditPlayerPage() {
   const router = useRouter();
   const player = players.find((p) => p.id === params.playerId);
   const { updatePlayer } = useAppStore();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    name: string;
+    location: string;
+    bio: string;
+    positions: string;
+    preferredFoot: Foot;
+    skillLevel: SkillLevel;
+  }>({
     name: player?.name || "",
     location: player?.location || "",
     bio: player?.bio || "",
     positions: player?.positions.join(", ") || "",
-    preferredFoot: player?.preferredFoot || "Right",
-    skillLevel: player?.skillLevel || "Intermediate",
+    preferredFoot: (player?.preferredFoot || "Right") as Foot,
+    skillLevel: (player?.skillLevel || "Intermediate") as SkillLevel,
   });
 
   if (!player) return null;
@@ -85,7 +92,7 @@ export default function EditPlayerPage() {
               <Input
                 value={form.preferredFoot}
                 onChange={(e) =>
-                  setForm({ ...form, preferredFoot: e.target.value })
+                  setForm({ ...form, preferredFoot: e.target.value as Foot })
                 }
               />
             </div>
@@ -94,7 +101,7 @@ export default function EditPlayerPage() {
               <Input
                 value={form.skillLevel}
                 onChange={(e) =>
-                  setForm({ ...form, skillLevel: e.target.value })
+                  setForm({ ...form, skillLevel: e.target.value as SkillLevel })
                 }
               />
             </div>
