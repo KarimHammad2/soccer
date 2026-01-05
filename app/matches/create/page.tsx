@@ -10,11 +10,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppStore } from "@/lib/store/app-store";
+import { Match, MatchType, SkillLevel } from "@/lib/types";
 
 export default function CreateMatchPage() {
   const router = useRouter();
   const { createMatch } = useAppStore();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Omit<Match, "id" | "attendees">>({
     title: "",
     location: "",
     date: "",
@@ -64,7 +65,9 @@ export default function CreateMatchPage() {
               <Label>Type</Label>
               <Input
                 value={form.type}
-                onChange={(e) => setForm({ ...form, type: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, type: e.target.value as MatchType })
+              }
               />
             </div>
             <div className="space-y-2">
@@ -72,7 +75,10 @@ export default function CreateMatchPage() {
               <Input
                 value={form.skillLevel}
                 onChange={(e) =>
-                  setForm({ ...form, skillLevel: e.target.value })
+                  setForm({
+                    ...form,
+                    skillLevel: e.target.value as SkillLevel,
+                  })
                 }
               />
             </div>
