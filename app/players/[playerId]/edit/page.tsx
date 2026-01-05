@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useParams } from "next/navigation";
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 
 import { MainShell } from "@/components/layout/main-shell";
 import { Button } from "@/components/ui/button";
@@ -91,18 +91,20 @@ export default function EditPlayerPage() {
               <Label>Preferred foot</Label>
               <Input
                 value={form.preferredFoot}
-                onChange={(e) =>
-                  setForm({ ...form, preferredFoot: e.target.value as Foot })
-                }
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const value = e.target.value as Foot;
+                  setForm((prev) => ({ ...prev, preferredFoot: value }));
+                }}
               />
             </div>
             <div className="space-y-2">
               <Label>Skill level</Label>
               <Input
                 value={form.skillLevel}
-                onChange={(e) =>
-                  setForm({ ...form, skillLevel: e.target.value as SkillLevel })
-                }
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const value = e.target.value as SkillLevel;
+                  setForm((prev) => ({ ...prev, skillLevel: value }));
+                }}
               />
             </div>
           </div>
