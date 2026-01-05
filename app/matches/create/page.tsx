@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppStore } from "@/lib/store/app-store";
-import { Match, MatchType, SkillLevel } from "@/lib/types";
+import { Match, MatchRSVP, MatchType, SkillLevel } from "@/lib/types";
 
 export default function CreateMatchPage() {
   const router = useRouter();
@@ -19,14 +19,14 @@ export default function CreateMatchPage() {
     title: "",
     location: "",
     date: "",
-    type: "Pickup",
-    skillLevel: "Intermediate",
+    type: "Pickup" as MatchType,
+    skillLevel: "Intermediate" as SkillLevel,
   });
 
   const handleSubmit = () => {
     const match = createMatch({
       ...form,
-      attendees: [],
+      attendees: [] as MatchRSVP[],
     });
     router.push(`/matches/${match.id}`);
   };
